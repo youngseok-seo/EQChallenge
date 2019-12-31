@@ -1,0 +1,31 @@
+In assigning a rating to each POI, the following assumptions were made:
+
+1. Sample size: There is a large sample size for requests, and a significant amount of POIs. This assumption improves the accuracy of the model.
+
+2. Average Distance: The average distance is one of the key factors which dictate the rating of the POI. It reveals the proximity of requests near the area
+    and has a direct influence over the ratings.
+
+3. Standard Deviation: With a sufficiently large dataset, it can be assumed that there is a significant number of requests at a distance near the average.
+    The outliers are taken into account in the radius calculations, which sets the radius of the "circle" around the POI to be the distance to the farthest
+    request. Therefore, it can be claimed that although standard deviation affects other properties of the POI analysis, the value itself can be more or less
+    excluded from the rating assignment.
+
+4. Radius: The significance of the value for the radius of the "circle" is most reflected in the density of the requests. As analyzing the radius itself would 
+    result in information also retrievable in density, the radius value can be excluded from the rating assignment.
+
+5. Density: As described above, the density value for each POI encompasses information of both the standard deviation as well as the radius. In 
+    addition, it is valuable as it gives context to the average distance value. Along with average distance, the density is a key factor in rating assignment.
+
+In popularity.py, the aim of the mathematical model was to provide a relative rating based on the dataset rather than an absolute rating.
+As geographical locations have countless factors that make each request unique, it seemed unreasonable to define the "best" and "worst" POIs.
+Assuming that there are a large number of POIs, leveraging scores on the average values for distance and density was deemed suitable. Taking 
+into account the extreme values and scaling the rest of the values based on where they lied with respect to these extremes allowed a spread
+of ratings across different POIs. As the given scale was -10 to 10, the 0 rating was assumed to be neutral; if a POI had average values for 
+both density and distance, it would score a value close to 0 -- neither good or bad.
+
+As the model provided is very much a generalization of a much more complex problem, there are factors which need to be taken into consideration.
+In examining the different values calculated from the given sample dataset, the possibility of outliers seems very prominent. A linear model may 
+fail to accurately portray the popularity of a POI. A possible solution could be to implement a quadratic or logarithmic scale that amplifies the
+ranges near the average and compresses the outliers. Such outliers can also be removed from the dataset. 
+
+Including the time stamps may also be of help, as the time of day can be assumed to have an effect on the popularity. 
